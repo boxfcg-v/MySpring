@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.robin.it.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.robin.it.module.User" >
+    <id column="USER_ID" property="userId" jdbcType="INTEGER" />
+    <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="USER_NAME_EN" property="userNameEn" jdbcType="VARCHAR" />
+    <result column="USER_NAME_CN" property="userNameCn" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE" />
+    <result column="SEX" property="sex" jdbcType="CHAR" />
+    <result column="OFFICE_PHONE" property="officePhone" jdbcType="VARCHAR" />
+    <result column="CELL_PHONE" property="cellPhone" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="LANGUAGE" property="language" jdbcType="VARCHAR" />
+    <result column="EDUCATION" property="education" jdbcType="VARCHAR" />
+    <result column="PHOTO" property="photo" jdbcType="VARCHAR" />
+    <result column="ADDRESS1" property="address1" jdbcType="VARCHAR" />
+    <result column="ADDRESS2" property="address2" jdbcType="VARCHAR" />
+    <result column="CREATOR_ID" property="creatorId" jdbcType="INTEGER" />
+    <result column="CREATOR_NAME_CN" property="creatorNameCn" jdbcType="VARCHAR" />
+    <result column="CREATOR_NAME_EN" property="creatorNameEn" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    USER_ID, ACCOUNT, password, USER_NAME_EN, USER_NAME_CN, BIRTHDAY, SEX, OFFICE_PHONE, 
+    CELL_PHONE, EMAIL, LANGUAGE, EDUCATION, PHOTO, ADDRESS1, ADDRESS2, CREATOR_ID, CREATOR_NAME_CN, 
+    CREATOR_NAME_EN, CREATE_DATETIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.robin.it.module.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.robin.it.module.UserExample" >
+    delete from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.robin.it.module.User" >
+    <selectKey resultType="java.lang.Integer" keyProperty="userId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_user (ACCOUNT, password, USER_NAME_EN, 
+      USER_NAME_CN, BIRTHDAY, SEX, 
+      OFFICE_PHONE, CELL_PHONE, EMAIL, 
+      LANGUAGE, EDUCATION, PHOTO, 
+      ADDRESS1, ADDRESS2, CREATOR_ID, 
+      CREATOR_NAME_CN, CREATOR_NAME_EN, CREATE_DATETIME
+      )
+    values (#{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userNameEn,jdbcType=VARCHAR}, 
+      #{userNameCn,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{sex,jdbcType=CHAR}, 
+      #{officePhone,jdbcType=VARCHAR}, #{cellPhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{language,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
+      #{address1,jdbcType=VARCHAR}, #{address2,jdbcType=VARCHAR}, #{creatorId,jdbcType=INTEGER}, 
+      #{creatorNameCn,jdbcType=VARCHAR}, #{creatorNameEn,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.robin.it.module.User" >
+    <selectKey resultType="java.lang.Integer" keyProperty="userId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="account != null" >
+        ACCOUNT,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="userNameEn != null" >
+        USER_NAME_EN,
+      </if>
+      <if test="userNameCn != null" >
+        USER_NAME_CN,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="officePhone != null" >
+        OFFICE_PHONE,
+      </if>
+      <if test="cellPhone != null" >
+        CELL_PHONE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="language != null" >
+        LANGUAGE,
+      </if>
+      <if test="education != null" >
+        EDUCATION,
+      </if>
+      <if test="photo != null" >
+        PHOTO,
+      </if>
+      <if test="address1 != null" >
+        ADDRESS1,
+      </if>
+      <if test="address2 != null" >
+        ADDRESS2,
+      </if>
+      <if test="creatorId != null" >
+        CREATOR_ID,
+      </if>
+      <if test="creatorNameCn != null" >
+        CREATOR_NAME_CN,
+      </if>
+      <if test="creatorNameEn != null" >
+        CREATOR_NAME_EN,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userNameEn != null" >
+        #{userNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="userNameCn != null" >
+        #{userNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="officePhone != null" >
+        #{officePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cellPhone != null" >
+        #{cellPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="address1 != null" >
+        #{address1,jdbcType=VARCHAR},
+      </if>
+      <if test="address2 != null" >
+        #{address2,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null" >
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="creatorNameCn != null" >
+        #{creatorNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorNameEn != null" >
+        #{creatorNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.robin.it.module.UserExample" resultType="java.lang.Integer" >
+    select count(*) from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_user
+    <set >
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.account != null" >
+        ACCOUNT = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userNameEn != null" >
+        USER_NAME_EN = #{record.userNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userNameCn != null" >
+        USER_NAME_CN = #{record.userNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null" >
+        BIRTHDAY = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.sex != null" >
+        SEX = #{record.sex,jdbcType=CHAR},
+      </if>
+      <if test="record.officePhone != null" >
+        OFFICE_PHONE = #{record.officePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cellPhone != null" >
+        CELL_PHONE = #{record.cellPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.language != null" >
+        LANGUAGE = #{record.language,jdbcType=VARCHAR},
+      </if>
+      <if test="record.education != null" >
+        EDUCATION = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photo != null" >
+        PHOTO = #{record.photo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address1 != null" >
+        ADDRESS1 = #{record.address1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address2 != null" >
+        ADDRESS2 = #{record.address2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatorId != null" >
+        CREATOR_ID = #{record.creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.creatorNameCn != null" >
+        CREATOR_NAME_CN = #{record.creatorNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatorNameEn != null" >
+        CREATOR_NAME_EN = #{record.creatorNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDatetime != null" >
+        CREATE_DATETIME = #{record.createDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_user
+    set USER_ID = #{record.userId,jdbcType=INTEGER},
+      ACCOUNT = #{record.account,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      USER_NAME_EN = #{record.userNameEn,jdbcType=VARCHAR},
+      USER_NAME_CN = #{record.userNameCn,jdbcType=VARCHAR},
+      BIRTHDAY = #{record.birthday,jdbcType=DATE},
+      SEX = #{record.sex,jdbcType=CHAR},
+      OFFICE_PHONE = #{record.officePhone,jdbcType=VARCHAR},
+      CELL_PHONE = #{record.cellPhone,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      LANGUAGE = #{record.language,jdbcType=VARCHAR},
+      EDUCATION = #{record.education,jdbcType=VARCHAR},
+      PHOTO = #{record.photo,jdbcType=VARCHAR},
+      ADDRESS1 = #{record.address1,jdbcType=VARCHAR},
+      ADDRESS2 = #{record.address2,jdbcType=VARCHAR},
+      CREATOR_ID = #{record.creatorId,jdbcType=INTEGER},
+      CREATOR_NAME_CN = #{record.creatorNameCn,jdbcType=VARCHAR},
+      CREATOR_NAME_EN = #{record.creatorNameEn,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{record.createDatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.robin.it.module.User" >
+    update t_user
+    <set >
+      <if test="account != null" >
+        ACCOUNT = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userNameEn != null" >
+        USER_NAME_EN = #{userNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="userNameCn != null" >
+        USER_NAME_CN = #{userNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="officePhone != null" >
+        OFFICE_PHONE = #{officePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cellPhone != null" >
+        CELL_PHONE = #{cellPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        LANGUAGE = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        EDUCATION = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        PHOTO = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="address1 != null" >
+        ADDRESS1 = #{address1,jdbcType=VARCHAR},
+      </if>
+      <if test="address2 != null" >
+        ADDRESS2 = #{address2,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null" >
+        CREATOR_ID = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="creatorNameCn != null" >
+        CREATOR_NAME_CN = #{creatorNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorNameEn != null" >
+        CREATOR_NAME_EN = #{creatorNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.robin.it.module.User" >
+    update t_user
+    set ACCOUNT = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      USER_NAME_EN = #{userNameEn,jdbcType=VARCHAR},
+      USER_NAME_CN = #{userNameCn,jdbcType=VARCHAR},
+      BIRTHDAY = #{birthday,jdbcType=DATE},
+      SEX = #{sex,jdbcType=CHAR},
+      OFFICE_PHONE = #{officePhone,jdbcType=VARCHAR},
+      CELL_PHONE = #{cellPhone,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      LANGUAGE = #{language,jdbcType=VARCHAR},
+      EDUCATION = #{education,jdbcType=VARCHAR},
+      PHOTO = #{photo,jdbcType=VARCHAR},
+      ADDRESS1 = #{address1,jdbcType=VARCHAR},
+      ADDRESS2 = #{address2,jdbcType=VARCHAR},
+      CREATOR_ID = #{creatorId,jdbcType=INTEGER},
+      CREATOR_NAME_CN = #{creatorNameCn,jdbcType=VARCHAR},
+      CREATOR_NAME_EN = #{creatorNameEn,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>
