@@ -1,11 +1,9 @@
 <?xml version="1.0"  encoding="utf-8"?>
-<beans    xmlns="http://www.springframework.org/schema/beans"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xmlns:context="http://www.springframework.org/schema/context"
-          xmlns:tx="http://www.springframework.org/schema/tx"
-          xmlns:aop="http://www.springframework.org/schema/aop"
-          xmlns:util="http://www.springframework.org/schema/util"
-          xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
 								http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 								http://www.springframework.org/schema/context
 								http://www.springframework.org/schema/context/spring-context-4.1.xsd
@@ -16,71 +14,109 @@
 								http://www.springframework.org/schema/util
 								http://www.springframework.org/schema/util/spring-util-4.1.xsd ">
 
-    <description>
-       This file is used to define the authority info.
-    </description>
+	<description>
+		This file is used to define the authority info.
+	</description>
 
-     <!-- 用于扫描 Spring 的各类annotation bean 变量:
-        @autowired  ; @Resource
-      -->
-    <context:annotation-config/>
+	<!-- 用于扫描 Spring 的各类annotation bean 变量: @autowired ; @Resource -->
+	<context:annotation-config />
 
-      <!-- 用于扫描类中组建：
-         如： @Controller, @Service, @Component
-     -->
-     <context:component-scan base-package="com.robin.it.*">
-         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-     </context:component-scan>
-     
-     
-     <tx:annotation-driven />  
-     
-    <bean  id="configProperties"  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="ignoreResourceNotFound" value="false" />
-        <property name="locations">
-            <list>
-                <!-- 这里支持多种寻址方式：classpath和file -->
-                 <value>classpath:/database.properties</value>
-                 <value>classpath:/config.properties</value>  
-                <!-- 推荐使用file的方式引入，这样可以将配置和代码分离 -->
-               <!-- <value>file:/opt/demo/config/demo-message.properties</value>-->
-            </list>
-        </property>
-    </bean>
-    
-    <util:properties  id="props" location="classpath:/config.properties"/>
-    
-    <!-- MYSQL 配置   -->
-    
-    <bean id="mysqlDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName"><value>${mysql.jdbc.driverClassName}</value></property>
-        <property name="url"><value>${mysql.jdbc.url}</value></property>
-        <property name="username"><value>${mysql.jdbc.username}</value></property>
-        <property name="password"><value>${mysql.jdbc.password}</value></property>
-    </bean>
-  
-   
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="mysqlDataSource" />
-        <!-- 指定sqlMapConfig总配置文件，订制的environment在spring容器中不在生效-->
-         <property  name="configLocation"  value="classpath:mybatis-config-mysql.xml"/>
-        <!--指定实体类映射文件，可以指定同时指定某一包以及子包下面的所有配置文件，mapperLocations和configLocation有一个即可，
-         当需要为实体类指定别名时，可指定configLocation属性，再在mybatis总配置文件中采用mapper引入实体类映射文件 -->
-         <property  name="mapperLocations">
-               <list>
+	<!-- 用于扫描类中组建： 如： @Controller, @Service, @Component -->
+	<context:component-scan base-package="com.robin.it.*">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+
+	<tx:annotation-driven />
+
+	<bean id="configProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="false" />
+		<property name="locations">
+			<list>
+				<!-- 这里支持多种寻址方式：classpath和file -->
+				<value>classpath:/database.properties</value>
+				<value>classpath:/config.properties</value>
+				<!-- 推荐使用file的方式引入，这样可以将配置和代码分离 -->
+				<!-- <value>file:/opt/demo/config/demo-message.properties</value> -->
+			</list>
+		</property>
+	</bean>
+
+	<util:properties id="props" location="classpath:/config.properties" />
+
+	<!-- MYSQL 配置 -->
+
+	<bean id="mysqlDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>${mysql.jdbc.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${mysql.jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${mysql.jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${mysql.jdbc.password}</value>
+		</property>
+	</bean>
+
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="mysqlDataSource" />
+		<!-- 指定sqlMapConfig总配置文件，订制的environment在spring容器中不在生效 -->
+		<property name="configLocation" value="classpath:mybatis-config-mysql.xml" />
+		<!--指定实体类映射文件，可以指定同时指定某一包以及子包下面的所有配置文件，mapperLocations和configLocation有一个即可， 
+			当需要为实体类指定别名时，可指定configLocation属性，再在mybatis总配置文件中采用mapper引入实体类映射文件 -->
+		<property name="mapperLocations">
+			<list>
 				<value>classpath*:/mysqlmapper/*Mapper.xml</value>
 			</list>
-         </property>
-    </bean>
+		</property>
+	</bean>
 
 
 
 
-    <bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.robin.it.dao" />
-        <!-- optional unless there are multiple session factories defined -->
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-    </bean>
-    
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.robin.it.dao" />
+		<!-- optional unless there are multiple session factories defined -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+
+	<!-- Here, it comment for spring job config -->
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+
+		<property name="triggers">
+			<list>
+				<ref bean="signJobTrigger" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="signJobTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="signJobDetail" />
+		<property name="cronExpression" value="${LOAN_SIGN_CRONJOB}"></property>
+	</bean>
+
+	<bean id="signJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="signJob" />
+		</property>
+		<property name="targetMethod">
+			<value>doJob</value>
+		</property>
+	</bean>
+
+	
+
 </beans>
 
