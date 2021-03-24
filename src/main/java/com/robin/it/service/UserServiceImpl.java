@@ -30,4 +30,21 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
+
+	public int addUser(User user) {
+		 
+		return userMapper.insert(user);
+		
+	}
+
+
+	public int deleteUser(Integer userId) {
+		return  userMapper.deleteByPrimaryKey(userId);
+	}
+
+
+	public int updateUser(User user) {
+		return userMapper.updateByPrimaryKeySelective(user);
+	}
+
 }
