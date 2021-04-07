@@ -119,7 +119,8 @@ public class FileTool {
 		  try {
 		   // 读取文件内容 (输入流)
 		   FileInputStream out = new FileInputStream(file);
-		   InputStreamReader isr = new InputStreamReader(out);
+		   @SuppressWarnings("resource")
+		  InputStreamReader isr = new InputStreamReader(out);
 		   int ch = 0;
 		   while ((ch = isr.read()) != -1) {
 		    System.out.print((char) ch);
