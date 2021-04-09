@@ -39,13 +39,18 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
+	@RequestMapping(value = "/getUsers", method = RequestMethod.GET)
 	public List<User>  getUsers(){
 		List<User> users = userService.getUsers();
 		return users;
 	}
 	
 	
+	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
+	public User  getUsers(int userId){
+		 User  user  = userService.getUser(userId);
+		return  user ;
+	}
 	
 
 }

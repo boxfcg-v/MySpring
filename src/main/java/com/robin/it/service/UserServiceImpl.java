@@ -47,4 +47,11 @@ public class UserServiceImpl implements UserService {
 		return userMapper.updateByPrimaryKeySelective(user);
 	}
 
+
+	public User getUser(int userId) {
+		
+		return userMapper.selectByPrimaryKey(userId);
+		//return null;
+	}
+
 }
